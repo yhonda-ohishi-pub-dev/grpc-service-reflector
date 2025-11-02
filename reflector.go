@@ -95,7 +95,7 @@ func getMethodDescriptor(fullMethodName string) (protoreflect.MethodDescriptor, 
 
 	// Try to find the service descriptor in the global registry
 	var methodDesc protoreflect.MethodDescriptor
-	err := protoregistry.GlobalFiles.RangeFiles(func(fd protoreflect.FileDescriptor) bool {
+	protoregistry.GlobalFiles.RangeFiles(func(fd protoreflect.FileDescriptor) bool {
 		services := fd.Services()
 		for i := 0; i < services.Len(); i++ {
 			sd := services.Get(i)
@@ -117,7 +117,7 @@ func getMethodDescriptor(fullMethodName string) (protoreflect.MethodDescriptor, 
 		return nil, fmt.Errorf("method descriptor not found for %s", fullMethodName)
 	}
 
-	return methodDesc, err
+	return methodDesc, nil
 }
 
 // getMessageSchema extracts the schema of a protobuf message
